@@ -23,7 +23,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(Long taskId) {
+    public boolean deleteTask(Long taskId) {
+        return true;
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
@@ -33,7 +34,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
     public Long createTask(TaskDto taskDto){
-        return taskDto.getId();
+        return 1L;
     }
 
 }

@@ -2,12 +2,14 @@ package com.crud.tasks.mapper;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@NoArgsConstructor
 public class TaskMapper {
 
     public Task mapToTask(final TaskDto taskDto) {

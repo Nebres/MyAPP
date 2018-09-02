@@ -1,4 +1,4 @@
-package com.crud.tasks.com.crud.tasks.domain;
+package com.crud.tasks.domain;
 
 public class Task {
 
@@ -7,3 +7,4 @@ public class Task {
     private String content;
 
 }
+

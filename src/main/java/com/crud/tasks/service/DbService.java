@@ -28,8 +28,12 @@ public class DbService {
         return repository.save(task);
     }
 
-    public void deleteTask(Long id) {
+    public void deleteTask(Long id) throws Exception {
         repository.delete(id);
+    }
+
+    public Optional<Task> updateTask(Task task) {
+        return getTask(task.getId());
     }
 
 }

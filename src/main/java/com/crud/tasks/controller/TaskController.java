@@ -28,8 +28,14 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(@RequestParam Long taskId) {
-        dbService.deleteTask(taskId);
+    public boolean deleteTask(@RequestParam Long taskId) {
+        try {
+            dbService.deleteTask(taskId);
+            return true;
+        } catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")

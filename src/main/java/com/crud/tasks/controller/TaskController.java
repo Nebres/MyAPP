@@ -46,7 +46,7 @@ public class TaskController {
             TaskDto taskToCheck = getTask(taskDto.getId());
             Task taskToModification = taskMapper.mapToTask(taskToCheck);
             taskToModification.setTitle(taskDto.getTitle());
-            taskToModification.setTitle(taskDto.getContent());
+            taskToModification.setContent(taskDto.getContent());
             taskMapper.mapToTaskDto(dbService.saveTask(taskMapper.mapToTask(taskDto)));
             return true;
         } catch (Exception e) {

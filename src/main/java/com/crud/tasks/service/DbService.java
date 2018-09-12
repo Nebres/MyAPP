@@ -32,8 +32,4 @@ public class DbService {
         repository.delete(id);
     }
 
-    public Optional<Task> updateTask(Task task) {
-        return getTask(task.getId());
-    }
-
 }

@@ -1,4 +1,4 @@
-call C:\Users\Przemek\IdeaProjects\tasks\runcrud.bat
+call runcrud.bat
 if "%ERRORLEVEL%" == "0" goto runbrowser
 .echo
 echo Fail Cannot open runcrud.bat

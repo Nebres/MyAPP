@@ -45,20 +45,9 @@ public class TaskController {
     public boolean updateTask(@RequestBody TaskDto taskDto) {
         try {
             Optional.ofNullable(getTask(taskDto.getId()))
-                    .map
+                    .map(s -> taskMapper.mapToTask(s))
+                    .ifPresent(t -> changeTask(t, taskDto));
             return true;
-
-         /*
-            if ( maybeTask.isPresent()) { //użyć ifPresent() , albo mapowanie (wprowadzić metode update() ) | zmienić na boolena
-                Task task = maybeTask.get();
-                task.setContent(taskDto.getContent());
-                task.setTitle(taskDto.getTitle());
-                dbService.saveTask(task);
-                return true;
-            } else {
-                return false;
-            }
-            */
         } catch (Exception e) {
             System.err.println(e);
             return false;
@@ -71,22 +60,10 @@ public class TaskController {
         dbService.saveTask(taskMapper.mapToTask(taskDto));
     }
 
-    public void changeTask() {
-        try {
-            Task task = maybeTask.get();
-            task.setContent(taskDto.getContent());
+    private void changeTask(Task task, TaskDto taskDto) {
             task.setTitle(taskDto.getTitle());
+            task.setContent(taskDto.getContent());
             dbService.saveTask(task);
-
-
-            task.setContent(task.getContent());
-            task.setTitle(task.getTitle());
-            dbService.saveTask(task);
-        } catch (Exception e) {
-            System.err.println(e);
-        }
     }
-
-
 
 }

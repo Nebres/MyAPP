@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -43,21 +44,49 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
     public boolean updateTask(@RequestBody TaskDto taskDto) {
         try {
-            TaskDto taskToCheck = getTask(taskDto.getId());
-            Task taskToModification = taskMapper.mapToTask(taskToCheck);
-            taskToModification.setTitle(taskDto.getTitle());
-            taskToModification.setContent(taskDto.getContent());
-            taskMapper.mapToTaskDto(dbService.saveTask(taskMapper.mapToTask(taskDto)));
+            Optional.ofNullable(getTask(taskDto.getId()))
+                    .map
             return true;
+
+         /*
+            if ( maybeTask.isPresent()) { //użyć ifPresent() , albo mapowanie (wprowadzić metode update() ) | zmienić na boolena
+                Task task = maybeTask.get();
+                task.setContent(taskDto.getContent());
+                task.setTitle(taskDto.getTitle());
+                dbService.saveTask(task);
+                return true;
+            } else {
+                return false;
+            }
+            */
         } catch (Exception e) {
             System.err.println(e);
             return false;
         }
+
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
     public void createTask(@RequestBody TaskDto taskDto){
         dbService.saveTask(taskMapper.mapToTask(taskDto));
     }
+
+    public void changeTask() {
+        try {
+            Task task = maybeTask.get();
+            task.setContent(taskDto.getContent());
+            task.setTitle(taskDto.getTitle());
+            dbService.saveTask(task);
+
+
+            task.setContent(task.getContent());
+            task.setTitle(task.getTitle());
+            dbService.saveTask(task);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+
 
 }

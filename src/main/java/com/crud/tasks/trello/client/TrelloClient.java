@@ -1,6 +1,8 @@
 package com.crud.tasks.trello.client;
 
+import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,8 +10,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 @Component
 public class TrelloClient {
@@ -32,33 +36,44 @@ public class TrelloClient {
 
     public List<TrelloBoardDto> getTrelloBoards() {
 
-        TrelloBoardDto[] boardsResponse = restTemplate.getForObject(buildUrl(), TrelloBoardDto[].class);
-        String worldToFind = "Kodilla";
+        TrelloBoardDto[] boardsResponse = restTemplate.getForObject(buildUrlForGet(), TrelloBoardDto[].class);
 
-        return Optional.ofNullable(boardsResponse)
-                .map(x -> Arrays.asList(x))
-                .map(b-> findBoardContainsString(b,worldToFind))
-                .orElse(null);
+        if (boardsResponse != null) {
+            return Arrays.asList(boardsResponse);
+        }
+        return new ArrayList<>();
+
     }
 
-    private URI buildUrl(){
+    public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto) {
+
+        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/cards")
+                .queryParam("key", trelloAppKey)
+                .queryParam("token", trelloAppToken)
+                .queryParam("name", trelloCardDto.getName())
+                .queryParam("desc", trelloCardDto.getDescription())
+                .queryParam("pos", trelloCardDto.getPos())
+                .queryParam("idList", trelloCardDto.getListId())
+                .queryParam("votes", trelloCardDto.getBadges().getVotes())
+                .queryParam("board", trelloCardDto.getBadges().getAttachments().getTrello().getBoard())
+                .queryParam("card", trelloCardDto.getBadges().getAttachments().getTrello().getCard())
+                .build()
+                .encode()
+                .toUri();
+
+        return restTemplate.postForObject(url, null, CreatedTrelloCard.class);
+    }
+
+    private URI buildUrlForGet(){
 
        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + trelloApiUser)
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloAppToken)
                 .queryParam("fields", "name,id")
+                .queryParam("lists", "all")
                 .build()
                 .encode()
                 .toUri();
-    }
-
-    private List<TrelloBoardDto> findBoardContainsString(List<TrelloBoardDto> listToSearched, String wordToFind){
-
-        return listToSearched
-                .stream()
-                .filter(y -> y.getName() != null)
-                .filter(x -> x.getName().contains(wordToFind))
-                .collect(Collectors.toList());
     }
 
 }

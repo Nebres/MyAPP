@@ -30,6 +30,4 @@ dependencies {
 	compile 'mysql:mysql-connector-java:8.0.12'
 
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
-
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }

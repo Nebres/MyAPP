@@ -56,8 +56,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
-    public void createTask(@RequestBody TaskDto taskDto){
-        dbService.saveTask(taskMapper.mapToTask(taskDto));
+    public void createTask(@RequestBody Task task){
+        dbService.saveTask(task);
     }
 
     private void changeTask(Task task, TaskDto taskDto) {

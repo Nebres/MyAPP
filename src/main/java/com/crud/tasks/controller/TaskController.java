@@ -27,7 +27,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
     public TaskDto getTask(@RequestParam Long taskId) {
-        return Optional.ofNullable(taskMapper.mapToTaskDto(dbService.getTask(taskId))).orElse(new TaskDto());
+        return Optional.ofNullable(taskMapper.mapToTaskDto(dbService.getTask(taskId))).orElse(null);
     }
 
 

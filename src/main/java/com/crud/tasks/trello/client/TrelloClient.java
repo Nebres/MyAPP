@@ -17,8 +17,8 @@ public class TrelloClient {
     @Value("${trello.api.endpoint.prod}")
     private String trelloApiEndpoint;
 
-    @Value("${trello.api.user}")
-    private String trelloApiUser;
+    @Value("${trello.api.accesLink}")
+    private String trelloAccesLink;
 
     @Value("${trello.app.key}")
     private String trelloAppKey;
@@ -36,14 +36,14 @@ public class TrelloClient {
         String worldToFind = "Kodilla";
 
         return Optional.ofNullable(boardsResponse)
-                .map(x -> Arrays.asList(x))
+                .map(Arrays::asList)
                 .map(b-> findBoardContainsString(b,worldToFind))
                 .orElse(null);
     }
 
     private URI buildUrl(){
 
-       return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + trelloApiUser)
+       return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + trelloAccesLink)
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloAppToken)
                 .queryParam("fields", "name,id")
@@ -56,6 +56,7 @@ public class TrelloClient {
 
         return listToSearched
                 .stream()
+                .filter(z -> z.getId() != null)
                 .filter(y -> y.getName() != null)
                 .filter(x -> x.getName().contains(wordToFind))
                 .collect(Collectors.toList());

@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Api
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/task")

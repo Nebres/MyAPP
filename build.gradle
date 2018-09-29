@@ -31,6 +31,8 @@ dependencies {
 	//compile group: 'postgresql', name: 'postgresql', version: '9.1-901.jdbc4'
 	compile 'mysql:mysql-connector-java:8.0.12'
 	compile 'org.springframework.boot:spring-boot-starter-mail:2.0.5.RELEASE'
+	compile 'org.apache.commons:commons-lang3:3.8'
+
 
 
 	testCompile 'org.springframework.boot:spring-boot-starter-test'

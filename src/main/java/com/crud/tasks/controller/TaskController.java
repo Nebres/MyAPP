@@ -4,6 +4,7 @@ import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +66,7 @@ public class TaskController {
         task.setTitle(taskDto.getTitle());
         task.setContent(taskDto.getContent());
         dbService.saveTask(task);
+
     }
 
 }

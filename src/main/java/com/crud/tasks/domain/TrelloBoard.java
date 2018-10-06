@@ -1,12 +1,14 @@
 package com.crud.tasks.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@EqualsAndHashCode
+@ToString
 public class TrelloBoard {
 
     private String id;

@@ -29,7 +29,7 @@ public class TrelloFacade {
 
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(trelloService.fetchTrelloBoards());
         List<TrelloBoard> filteredBoards = trelloValidator.validateTrelloBorads(trelloBoards);
-        return trelloMapper.mapToBoradsDto(filteredBoards);
+        return trelloMapper.mapToBoardsDto(filteredBoards);
 
     }
 

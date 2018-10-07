@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TrelloMapperTest {
+public class TrelloMapperTestSuite {
 
     @Autowired
     TrelloMapper trelloMapper;
@@ -53,11 +54,10 @@ public class TrelloMapperTest {
     }
 
     @Test
-    public void mapToList() {
-        //Given
+    public void testMapToListMethod() {
+        //When
         List<TrelloListDto> expected = initTrelloListDto();
         List<TrelloList> actual = trelloMapper.mapToList(expected);
-        //When
         List<String> expectedIds = expected.stream().map(TrelloListDto::getId).collect(toList());
         List<String> expectedNames = expected.stream().map(TrelloListDto::getName).collect(toList());
         List<Boolean> expectedIsClosed = expected.stream().map(TrelloListDto::isClosed).collect(toList());
@@ -71,33 +71,31 @@ public class TrelloMapperTest {
     }
 
     @Test
-    public void mapToBoards() {
-        //Given
+    public void testMapToBoardsMethod() {
+        //When
         List<TrelloBoardDto> expected = initTrelloBoardsDto();
         List<TrelloBoard> actual = trelloMapper.mapToBoards(expected);
-        //When
         List<String> expectedIds = expected.stream().map(TrelloBoardDto::getId).collect(toList());
         List<String> expectedNames = expected.stream().map(TrelloBoardDto::getName).collect(toList());
-        Long expectedSumedListsSize = expected.stream()
+        Long expectedSummedListsSize = expected.stream()
                 .mapToInt(TrelloBoardDto -> TrelloBoardDto.getLists().size())
                 .count();
         List<String> actualIds = actual.stream().map(TrelloBoard::getId).collect(toList());
         List<String> actualNames = actual.stream().map(TrelloBoard::getName).collect(toList());
-        Long actualSumedListsSize = actual.stream()
+        Long actualSummedListsSize = actual.stream()
                 .mapToInt(TrelloBoardDto -> TrelloBoardDto.getLists().size())
                 .count();
         //Then
         Assert.assertTrue(expectedIds.containsAll(actualIds));
         Assert.assertTrue(expectedNames.containsAll(actualNames));
-        Assert.assertEquals(expectedSumedListsSize, actualSumedListsSize);
+        Assert.assertEquals(expectedSummedListsSize, actualSummedListsSize);
     }
 
     @Test
-    public void mapToListDto() {
-        //Given
+    public void testMapToListDtoMethod() {
+        //When
         List<TrelloList> expected = initTrelloList();
         List<TrelloListDto> actual = trelloMapper.mapToListDto(expected);
-        //When
         List<String> expectedIds = expected.stream().map(TrelloList::getId).collect(toList());
         List<String> expectedNames = expected.stream().map(TrelloList::getName).collect(toList());
         List<Boolean> expectedIsClosed = expected.stream().map(TrelloList::isClosed).collect(toList());
@@ -111,45 +109,45 @@ public class TrelloMapperTest {
     }
 
     @Test
-    public void mapToBoardsDto() {
-        //Given
+    public void testMapToBoardsDtoMethod() {
+
+        //When
         List<TrelloBoard> expected = initTrelloBoards();
         List<TrelloBoardDto> actual = trelloMapper.mapToBoardsDto(expected);
-        //When
         List<String> expectedIds = expected.stream().map(TrelloBoard::getId).collect(toList());
         List<String> expectedNames = expected.stream().map(TrelloBoard::getName).collect(toList());
-        Long expectedSumedListsSize = expected.stream()
+        Long expectedSummedListsSize = expected.stream()
                 .mapToInt(TrelloBoardDto -> TrelloBoardDto.getLists().size())
                 .count();
         List<String> actualIds = actual.stream().map(TrelloBoardDto::getId).collect(toList());
         List<String> actualNames = actual.stream().map(TrelloBoardDto::getName).collect(toList());
-        Long actualSumedListsSize = actual.stream()
+        Long actualSummedListsSize = actual.stream()
                 .mapToInt(TrelloBoardDto -> TrelloBoardDto.getLists().size())
                 .count();
         //Then
         Assert.assertTrue(expectedIds.containsAll(actualIds));
         Assert.assertTrue(expectedNames.containsAll(actualNames));
-        Assert.assertEquals(expectedSumedListsSize, actualSumedListsSize);
+        Assert.assertEquals(expectedSummedListsSize, actualSummedListsSize);
     }
 
     @Test
-    public void mapToCardDto() {
+    public void testMapToCardDtoMethod() {
         //Given
-        TrelloCard expected = new TrelloCard("test","test description","1","1" );
+        TrelloCard expected = new TrelloCard("test", "test description", "1", "1");
         //When
-        TrelloCardDto actual  = trelloMapper.mapToCardDto(expected);
+        TrelloCardDto actual = trelloMapper.mapToCardDto(expected);
         //Then
-        Assert.assertEquals(actual.hashCode(), expected.hashCode());
+        assertThat(expected).isEqualToComparingFieldByField(actual);
     }
 
     @Test
-    public void mapToCard() {
+    public void testMapToCardMethod() {
         //Given
         TrelloCardDto expected = new TrelloCardDto("test","test description","1","1" );
         //When
         TrelloCard actual  = trelloMapper.mapToCard(expected);
         //Then
-        Assert.assertEquals(actual.hashCode(), expected.hashCode());
+        assertThat(expected).isEqualToComparingFieldByField(actual);
     }
 
 }

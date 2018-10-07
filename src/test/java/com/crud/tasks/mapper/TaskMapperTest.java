@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -29,7 +29,7 @@ public class TaskMapperTest {
         //When
         Task actual = taskMapper.mapToTask(expected);
         //Then
-        Assert.assertEquals(expected.hashCode(), actual.hashCode());
+        assertThat(expected).isEqualToComparingFieldByField(actual);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class TaskMapperTest {
         //When
         TaskDto actual = taskMapper.mapToTaskDto(expected);
         //Then
-        Assert.assertEquals(expected.hashCode(), actual.hashCode());
+        assertThat(expected).isEqualToComparingFieldByField(actual);
     }
 
     @Test

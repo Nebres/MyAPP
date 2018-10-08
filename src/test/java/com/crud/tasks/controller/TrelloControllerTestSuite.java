@@ -1,12 +1,13 @@
 package com.crud.tasks.controller;
 
-import com.crud.tasks.domain.*;
+import com.crud.tasks.domain.CreatedTrelloCardDto;
+import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.domain.TrelloListDto;
 import com.crud.tasks.trello.facade.TrelloFacade;
-import com.google.common.base.Utf8;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -76,7 +76,6 @@ public class TrelloControllerTestSuite {
     public void shouldCreateTrelloCard() throws  Exception {
         //Given
         Gson gson = new Gson();
-
         TrelloCardDto trelloCardDto = new TrelloCardDto
                 ("Test", "Test Description", "top", "1" );
         CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto

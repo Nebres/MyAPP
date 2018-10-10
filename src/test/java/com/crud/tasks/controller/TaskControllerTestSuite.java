@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TrelloController.class)
+@WebMvcTest(TaskController.class)
 public class TaskControllerTestSuite {
 
     @Autowired
@@ -32,10 +32,6 @@ public class TaskControllerTestSuite {
 
     @MockBean
     TaskController taskController;
-
-    @MockBean
-    TrelloFacade trelloFacade;
-
 
     private TaskDto initTaskDto(Long number) {
         return new TaskDto(number, "test" + number, "test content" + number);

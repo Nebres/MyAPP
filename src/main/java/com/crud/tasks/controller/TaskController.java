@@ -57,8 +57,14 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
-    public void createTask(@RequestBody TaskDto taskDto){
-        dbService.saveTask(taskMapper.mapToTask(taskDto));
+    public boolean createTask(@RequestBody TaskDto taskDto){
+        try {
+            dbService.saveTask(taskMapper.mapToTask(taskDto));
+            return true;
+        } catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
     }
 
     private void changeTask(Task task, TaskDto taskDto) {

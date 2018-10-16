@@ -7,8 +7,6 @@ import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,12 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -102,6 +97,22 @@ public class TaskControllerTestSuite {
 
 
     @Test
+    public void shouldReturnEmptyTaskFromTheDbWhenNonExistedIdIsGiven() throws Exception {
+        //Given
+        List<Task> tasks = initTasksList();
+        tasks.add(2, new Task());
+        when(dbService.getTask(3L)).thenReturn(tasks.get(2));
+        when(taskMapper.mapToTaskDto(tasks.get(2))).thenReturn(new TaskDto());
+        //When & Then
+        mockMvc.perform(get("/v1/task/getTask?taskId=3").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.title", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.content", isEmptyOrNullString()));
+    }
+
+
+    @Test
     public void shouldDeleteSpecifiedTaskFromTheDbWhenCorrectIdIsGiven() throws Exception {
         //Given
         List<Task> tasks = initTasksList();
@@ -111,6 +122,8 @@ public class TaskControllerTestSuite {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(true)));
     }
+
+
 
     @Test
     public void shouldPostTaskInToTheDb() throws Exception {

@@ -68,7 +68,6 @@ public class TrelloClientTest {
         //Then
         Assert.assertNotNull(actual);
         Assert.assertEquals(0, actual.size());
-      
     }
 
 }

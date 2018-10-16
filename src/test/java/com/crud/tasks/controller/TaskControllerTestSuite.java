@@ -7,6 +7,7 @@ import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -123,8 +125,6 @@ public class TaskControllerTestSuite {
                 .andExpect(jsonPath("$", is(true)));
     }
 
-
-
     @Test
     public void shouldPostTaskInToTheDb() throws Exception {
         //Given
@@ -159,6 +159,19 @@ public class TaskControllerTestSuite {
                 .content(jSonContent))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(true)));
+    }
+
+    @Test
+    public void shouldReturnEmptyListWhenNoTasksIsInDb() throws Exception {
+        //Given
+        List<Task> tasks = Collections.emptyList();
+        List<TaskDto> tasksDto = Collections.emptyList();
+        when(dbService.getAllTasks()).thenReturn(tasks);
+        when(taskMapper.mapToTaskDtoList(tasks)).thenReturn(tasksDto);
+        //When & Then
+        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is(Collections.EMPTY_LIST)));
     }
 
 }

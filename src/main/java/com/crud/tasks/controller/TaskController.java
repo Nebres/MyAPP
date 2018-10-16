@@ -21,7 +21,7 @@ public class TaskController {
     @Autowired
     private TaskMapper taskMapper;
 
-    @RequestMapping(method = RequestMethod.GET ,value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     List<TaskDto> getTasks() {
         return Optional.ofNullable(taskMapper.mapToTaskDtoList(dbService.getAllTasks())).orElse(Collections.emptyList());
     }
@@ -57,7 +57,7 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
-    public boolean createTask(@RequestBody TaskDto taskDto){
+    public boolean createTask(@RequestBody TaskDto taskDto) {
         try {
             dbService.saveTask(taskMapper.mapToTask(taskDto));
             return true;

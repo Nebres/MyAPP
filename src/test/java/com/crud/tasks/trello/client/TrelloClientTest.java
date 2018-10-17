@@ -1,6 +1,8 @@
 package com.crud.tasks.trello.client;
 
+import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.trello.config.TrelloConfig;
 import org.junit.Assert;
 import org.junit.Before;
@@ -56,7 +58,7 @@ public class TrelloClientTest {
     }
 
     @Test
-    public void shouldReturnEmptyList()throws URISyntaxException {
+    public void shouldReturnEmptyList() throws URISyntaxException {
         //Given
         TrelloBoardDto[] trelloBoards = null;
 
@@ -68,6 +70,22 @@ public class TrelloClientTest {
         //Then
         Assert.assertNotNull(actual);
         Assert.assertEquals(0, actual.size());
+    }
+
+    @Test
+    public void shouldCrateNewCardWhenGetTrelloCardDto() throws URISyntaxException {
+        //Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto
+                ("test", "test description", "top", "1" );
+        URI uri = new URI("http://test.com/cards?key=test&token=test&name=test&" +
+                        "desc=test%20description&pos=top&idList=1");
+       CreatedTrelloCardDto newCard = new CreatedTrelloCardDto
+                ("1", "test", "test.com");
+       when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class)).thenReturn(newCard);
+       //When
+        CreatedTrelloCardDto actual = trelloClient.createNewCard(trelloCardDto);
+       //Then
+        Assert.assertEquals(newCard, actual);
     }
 
 }

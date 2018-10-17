@@ -34,11 +34,55 @@ public class TaskMapperTestSuite {
     }
 
     @Test
+    public void shouldReturnEmptyTaskWhenGetNull() {
+        //Given
+        TaskDto taskDto = null;
+        //When
+        Task expected = new Task();
+        Task actual = taskMapper.mapToTask(taskDto);
+        //Then
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldReturnEmptyTaskWhenGetEmptyTaskDto() {
+        //Given
+        TaskDto taskDto = new TaskDto();
+        //When
+        Task expected = new Task();
+        Task actual = taskMapper.mapToTask(taskDto);
+        //Then
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
     public void shouldReturnTaskDtoWhenGetTask() {
         //Given
         Task task = new Task(1L,"Test", "Test content");
         //When
         TaskDto expected = new TaskDto(1L,"Test", "Test content");
+        TaskDto actual = taskMapper.mapToTaskDto(task);
+        //Then
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldReturnEmptyTaskDtoWhenGetNull() {
+        //Given
+        Task task = null;
+        //When
+        TaskDto expected = new TaskDto();
+        TaskDto actual = taskMapper.mapToTaskDto(task);
+        //Then
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldReturnEmptyTaskDtoWhenGetEmptyTask() {
+        //Given
+        Task task = new Task();
+        //When
+        TaskDto expected = new TaskDto();
         TaskDto actual = taskMapper.mapToTaskDto(task);
         //Then
         Assert.assertEquals(expected, actual);
@@ -71,6 +115,17 @@ public class TaskMapperTestSuite {
     public void shouldReturnEmptyListOfTasksDtoWhenGetEmptyListOfTasks() {
         //Given
         List<Task> tasks = new ArrayList<>();
+        //When
+        List<TaskDto> actual = taskMapper.mapToTaskDtoList(tasks);
+        //Then
+        Assert.assertNotNull(actual);
+        Assert.assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    public void shouldReturnEmptyTaskDtoListWhenGetNull() {
+        //Given
+        List<Task> tasks = null;
         //When
         List<TaskDto> actual = taskMapper.mapToTaskDtoList(tasks);
         //Then

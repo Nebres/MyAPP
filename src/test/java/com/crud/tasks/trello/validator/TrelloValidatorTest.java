@@ -32,18 +32,19 @@ public class TrelloValidatorTest {
     final Appender mockAppender = mock(Appender.class);
 
     @Before
-    public void init() {
-        ch.qos.logback.classic.Logger root =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-        when(mockAppender.getName()).thenReturn("MOCK");
-        root.addAppender(mockAppender);
+        public void init() {
+            ch.qos.logback.classic.Logger root =
+                    (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+            when(mockAppender.getName()).thenReturn("MOCK");
+            root.addAppender(mockAppender);
     }
+
     @Test
     public void shouldInformAboutTestWhenGetTestedTrelloCard() {
         //Given
         TrelloCard trelloCard = new TrelloCard("test", "test description", "1", "1");
         //When
-        trelloValidator.validateCard(trelloCard);
+        boolean actual = trelloValidator.validateCard(trelloCard);
         //Then
         verify(mockAppender).doAppend(argThat(new ArgumentMatcher() {
             @Override
@@ -51,6 +52,7 @@ public class TrelloValidatorTest {
                 return ((LoggingEvent) argument).getFormattedMessage().contains("Someone testing application.");
             }
         }));
+        Assert.assertFalse(actual);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class TrelloValidatorTest {
         //Given
         TrelloCard trelloCard = new TrelloCard("card", "card description", "1", "1");
         //When
-        trelloValidator.validateCard(trelloCard);
+        boolean actual = trelloValidator.validateCard(trelloCard);
         //Then
         verify(mockAppender).doAppend(argThat(new ArgumentMatcher() {
             @Override
@@ -67,6 +69,7 @@ public class TrelloValidatorTest {
                             .contains("Seems that application is used in proper way.");
             }
         }));
+        Assert.assertTrue(actual);
     }
 
     @Test

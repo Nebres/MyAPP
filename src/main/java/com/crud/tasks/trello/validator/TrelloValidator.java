@@ -18,12 +18,14 @@ public class TrelloValidator {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TrelloFacade.class);
 
-    public void validateCard(final TrelloCard trelloCard) {
+    public boolean validateCard(final TrelloCard trelloCard) {
 
         if(trelloCard.getName().contains("test")) {
             LOGGER.info("Someone testing application.");
+            return false;
         } else {
             LOGGER.info("Seems that application is used in proper way.");
+            return true;
         }
     }
 

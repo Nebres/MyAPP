@@ -5,7 +5,9 @@ import com.crud.tasks.domain.TaskDto;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -13,24 +15,21 @@ import java.util.stream.Collectors;
 public class TaskMapper {
 
     public Task mapToTask(final TaskDto taskDto) {
-        return new Task (
-                taskDto.getId(),
-                taskDto.getTitle(),
-                taskDto.getContent());
+        return Optional.ofNullable(taskDto).map(td -> new Task(td.getId(), td.getTitle(), td.getContent()))
+                .orElse(new Task());
     }
 
     public TaskDto mapToTaskDto(final Task task) {
-        return new TaskDto(
-                task.getId(),
-                task.getTitle(),
-                task.getContent());
+        return Optional.ofNullable(task).map(t -> new TaskDto(t.getId(), t.getTitle(), t.getContent()))
+                .orElse(new TaskDto());
     }
 
     public List<TaskDto> mapToTaskDtoList (final List<Task> taskList) {
-        return taskList
-                .stream()
-                .map(t -> new TaskDto(t.getId(), t.getTitle(), t.getContent()))
-                .collect(Collectors.toList());
+        return Optional.ofNullable(taskList)
+                .map(x -> x.stream()
+                        .map(t -> new TaskDto(t.getId(), t.getTitle(), t.getContent()))
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
     }
 
 }

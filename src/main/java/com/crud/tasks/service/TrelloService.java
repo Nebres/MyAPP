@@ -9,8 +9,11 @@ import com.crud.tasks.trello.client.TrelloClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
 @Service
@@ -28,7 +31,7 @@ public class TrelloService {
     AdminConfig adminConfig;
 
     public List<TrelloBoardDto> fetchTrelloBoards() {
-        return trelloClient.getTrelloBoards();
+        return Optional.ofNullable(trelloClient.getTrelloBoards()).orElse(Collections.emptyList());
     }
 
     public CreatedTrelloCardDto createTrelloCard(final TrelloCardDto trelloCardDto) {

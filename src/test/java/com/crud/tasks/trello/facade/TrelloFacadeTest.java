@@ -105,7 +105,7 @@ public class TrelloFacadeTest {
 
         when(trelloService.createTrelloCard(any())).thenReturn(createdTrelloCardDto);
         when(trelloMapper.mapToCard(any())).thenReturn(trelloCard);
-        doNothing().when(trelloValidator).validateCard(any());
+        when(trelloValidator.validateCard(any())).thenReturn(true);
         //When
         CreatedTrelloCardDto actual = trelloFacade.createCard(trelloCardDto);
         CreatedTrelloCardDto expected =  new CreatedTrelloCardDto("1", "card", "card.com");
@@ -122,7 +122,7 @@ public class TrelloFacadeTest {
 
         when(trelloService.createTrelloCard(any())).thenReturn(createdTrelloCardDto);
         when(trelloMapper.mapToCard(any())).thenReturn(trelloCard);
-        doNothing().when(trelloValidator).validateCard(any());
+        when(trelloValidator.validateCard(any())).thenReturn(true);
         //When
         CreatedTrelloCardDto actual = trelloFacade.createCard(trelloCardDto);
         CreatedTrelloCardDto expected = new CreatedTrelloCardDto();

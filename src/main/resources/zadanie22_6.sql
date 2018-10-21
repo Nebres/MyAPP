@@ -59,7 +59,7 @@ explain select count(*) from readers where FIRSTNAME between 'g' and 'r';
 
 create index BOOKS_INDEX ON books(TITLE);
 create index READERS_FIRSTANAME_INDEX ON readers(FIRSTNAME);
-create index READERS_FIRSTANAME_INDEX ON readers(LASTNAME);
+create index READERS_LASTNAME_INDEX ON readers(LASTNAME);
 
 explain select count(*) from readers where FIRSTNAME between 'g' and 'r';
 

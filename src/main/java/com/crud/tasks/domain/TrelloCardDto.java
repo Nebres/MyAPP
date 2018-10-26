@@ -5,6 +5,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode
 @ToString
 public class TrelloCardDto {
@@ -13,6 +14,5 @@ public class TrelloCardDto {
     private String description;
     private String pos;
     private String listId;
-    private Badges badges;
 
 }

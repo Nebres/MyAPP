@@ -4,7 +4,6 @@ import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class TaskController {
     @Autowired
     private TaskMapper taskMapper;
 
-    @RequestMapping(method = RequestMethod.GET ,value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     List<TaskDto> getTasks() {
         return Optional.ofNullable(taskMapper.mapToTaskDtoList(dbService.getAllTasks())).orElse(Collections.emptyList());
     }
@@ -58,15 +57,20 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
-    public void createTask(@RequestBody TaskDto taskDto){
-        dbService.saveTask(taskMapper.mapToTask(taskDto));
+    public boolean createTask(@RequestBody TaskDto taskDto) {
+        try {
+            dbService.saveTask(taskMapper.mapToTask(taskDto));
+            return true;
+        } catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
     }
 
     private void changeTask(Task task, TaskDto taskDto) {
         task.setTitle(taskDto.getTitle());
         task.setContent(taskDto.getContent());
         dbService.saveTask(task);
-
     }
 
 }

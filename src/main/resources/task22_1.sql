@@ -1,4 +1,4 @@
-drop procedure if exists searchReaderById;
+drop function if exists searchReaderById;
 
 delimiter $$
 

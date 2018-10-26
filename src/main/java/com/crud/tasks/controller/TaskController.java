@@ -4,9 +4,11 @@ import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +24,13 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET ,value = "getTasks")
     List<TaskDto> getTasks() {
-        return taskMapper.mapToTaskDtoList(dbService.getAllTasks());
+        return Optional.ofNullable(taskMapper.mapToTaskDtoList(dbService.getAllTasks())).orElse(Collections.emptyList());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
     public TaskDto getTask(@RequestParam Long taskId) {
-        return Optional.ofNullable(taskMapper.mapToTaskDto(dbService.getTask(taskId))).orElse(null);
+        return Optional.ofNullable(taskMapper.mapToTaskDto(dbService.getTask(taskId))).orElse(new TaskDto());
     }
-
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
     public boolean deleteTask(@RequestParam Long taskId) {
@@ -65,6 +66,7 @@ public class TaskController {
         task.setTitle(taskDto.getTitle());
         task.setContent(taskDto.getContent());
         dbService.saveTask(task);
+
     }
 
 }

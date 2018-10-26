@@ -15,6 +15,8 @@ create table READERS_STATS (
 );
 commit;
 
+drop procedure if exists CalcBooksAndReadersStats;
+
 delimiter $$
 
 create procedure CalcBooksAndReadersStats()
@@ -49,18 +51,17 @@ create procedure CalcBooksAndReadersStats()
     values ('s', 'z' , counter, secondCounter);
 
   commit;
-  end $$
+end $$
 
 delimiter ;
 
 call CalcBooksAndReadersStats();
 
-explain select count(*) from readers where FIRSTNAME between 'g' and 'r';
+explain select count(*) from readers where FIRSTNAME = 'John';;
 
-create index BOOKS_INDEX ON books(TITLE);
-create index READERS_FIRSTANAME_INDEX ON readers(FIRSTNAME);
-create index READERS_LASTNAME_INDEX ON readers(LASTNAME);
+create index BOOKS_TITLE_IDX ON books(TITLE);
+create index READERS_FNLN_IDX ON readers(FIRSTNAME, LASTNAME);
 
-explain select count(*) from readers where FIRSTNAME between 'g' and 'r';
+explain select count(*) from readers where FIRSTNAME  = 'John';
 
 

@@ -19,7 +19,7 @@ do
   begin
     declare result int;
     call updateBestsellers();
-    select Sum(bestseller) from BESTSELLERS_COUNT into result;
+    select bestseller from BESTSELLERS_COUNT into result;
     INSERT INTO STATS (STAT_DATE, STAT, VALUE)
     VALUES (curtime(), "BESTSELLERS", result);
   end $$

@@ -6,12 +6,16 @@
 </head>
 <body>
     <h1>First Impression of my Page</h1>
-<!--/*@thymesVar id="variable" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-<span th:text="${variable}"></span>
-    <br>
     <!--/*@thymesVar id="variable" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="variable" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <span th:text="${one}+ ${two}"></span>
-    </br>
+    <span th:text="${variable}"></span>
+    <br></br>
+    <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
+    <span th:text="${two + ' * ' + two + ' = ' + two * two}"></span>
+    <br></br>
+    <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
+    <span th:text="${two + ' * ' + two + ' + ' + two + ' = ' + (two * two + two)}"></span>
+    <br></br>
+    <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
+    <span th:text="${two + ' - ' + two + ' * ' + two + ' = ' + (two - two * two)}"></span>
 </body>
 </html>

@@ -1,9 +1,6 @@
 package com.crud.tasks.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @EqualsAndHashCode
@@ -15,5 +12,8 @@ public class Mail {
     private final String mailToCC;
     private final String subject;
     private final String message;
+    private boolean isScheduler;
+
+
 
 }

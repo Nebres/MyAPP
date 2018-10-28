@@ -27,7 +27,7 @@ public class EmailScheduler {
         long size = taskRepository.count();
         String taskLastLetterMatcher = size <= 1 ? " Task." : " Tasks.";
         emailService.send(new Mail(companyConfig.getAdminMail(), null, SUBJECT,
-                "Currently in DB you got " + size + taskLastLetterMatcher));
+                "Currently in DB you got " + size + taskLastLetterMatcher, true));
     }
 
 }

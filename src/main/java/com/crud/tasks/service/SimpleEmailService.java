@@ -29,17 +29,12 @@ public class SimpleEmailService {
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setCc(mail.getMailToCC());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEMail(mail.getMessage()), true);
+            if (mail.isScheduler()) {
+                messageHelper.setText(mailCreatorService.buildSchedulerInfoEMail(mail.getMessage()), true);
+            } else {
+                messageHelper.setText(mailCreatorService.buildTrelloCardEMail(mail.getMessage()), true);
+            }
         };
-    }
-
-    private SimpleMailMessage createMailMessage(final Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setCc(mail.getMailToCC());
-        mailMessage.setSubject(mail.getMailTo());
-        mailMessage.setText(mailCreatorService.buildTrelloCardEMail(mail.getMessage()));
-        return mailMessage;
     }
 
     public void send(Mail mail) {

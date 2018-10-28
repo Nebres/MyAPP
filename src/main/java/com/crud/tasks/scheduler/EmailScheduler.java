@@ -1,6 +1,6 @@
 package com.crud.tasks.scheduler;
 
-import com.crud.tasks.config.AdminConfig;
+import com.crud.tasks.config.CompanyConfig;
 import com.crud.tasks.domain.Mail;
 import com.crud.tasks.repository.TaskRepository;
 import com.crud.tasks.service.SimpleEmailService;
@@ -20,13 +20,13 @@ public class EmailScheduler {
     private TaskRepository taskRepository;
 
     @Autowired
-    private AdminConfig adminConfig;
+    private CompanyConfig companyConfig;
 
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformationEmail() {
         long size = taskRepository.count();
         String taskLastLetterMatcher = size <= 1 ? " Task." : " Tasks.";
-        emailService.send(new Mail(adminConfig.getAdminMail(), null, SUBJECT,
+        emailService.send(new Mail(companyConfig.getAdminMail(), null, SUBJECT,
                 "Currently in DB you got " + size + taskLastLetterMatcher));
     }
 

@@ -1,6 +1,6 @@
 package com.crud.tasks.service;
 
-import com.crud.tasks.config.AdminConfig;
+import com.crud.tasks.config.CompanyConfig;
 import com.crud.tasks.domain.*;
 import com.crud.tasks.trello.client.TrelloClient;
 import org.junit.Assert;
@@ -31,7 +31,7 @@ public class TrelloServiceTestSuite {
     private SimpleEmailService emailService;
 
     @Mock
-    private AdminConfig adminConfig;
+    private CompanyConfig companyConfig;
 
     private List<TrelloListDto> initTrelloListDto() {
         List<TrelloListDto> trelloListDto = new ArrayList<>();
@@ -77,7 +77,7 @@ public class TrelloServiceTestSuite {
         CreatedTrelloCardDto newCard = new CreatedTrelloCardDto
                 ("1", "test", "test.com");
         when(trelloClient.createNewCard(trelloCardDto)).thenReturn(newCard);
-        when(adminConfig.getAdminMail()).thenReturn("test@test.com");
+        when(companyConfig.getAdminMail()).thenReturn("test@test.com");
         doNothing().when(emailService).send(any());
         //When
         CreatedTrelloCardDto actual = trelloService.createTrelloCard(trelloCardDto);
@@ -92,7 +92,7 @@ public class TrelloServiceTestSuite {
         //Given
         TrelloCardDto trelloCardDto = null;
         when(trelloClient.createNewCard(trelloCardDto)).thenReturn(null);
-        when(adminConfig.getAdminMail()).thenReturn("test@test.com");
+        when(companyConfig.getAdminMail()).thenReturn("test@test.com");
         doNothing().when(emailService).send(any());
         //When
         CreatedTrelloCardDto actual = trelloService.createTrelloCard(trelloCardDto);

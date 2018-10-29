@@ -23,25 +23,42 @@ public class SimpleEmailService {
     JavaMailSender javaMailSender;
 
 
-    private MimeMessagePreparator createMimeMessage(final Mail mail) {
+    private MimeMessagePreparator createMimeMessageForNewTrelloCard(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setCc(mail.getMailToCC());
             messageHelper.setSubject(mail.getSubject());
-            if (mail.isScheduler()) {
-                messageHelper.setText(mailCreatorService.buildSchedulerInfoEMail(mail.getMessage()), true);
-            } else {
-                messageHelper.setText(mailCreatorService.buildTrelloCardEMail(mail.getMessage()), true);
-            }
+            messageHelper.setText(mailCreatorService.buildTrelloCardEMail(mail.getMessage()), true);
         };
     }
 
-    public void send(Mail mail) {
+    private MimeMessagePreparator createSchedulerInfoMail(final Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setCc(mail.getMailToCC());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.buildSchedulerInfoEMail(mail.getMessage()), true);
+        };
+    }
+
+    public void sendMessageForNewTrelloCard(Mail mail) {
 
         LOGGER.info("Starting email preparation...");
         try {
-            javaMailSender.send(createMimeMessage(mail));
+            javaMailSender.send(createMimeMessageForNewTrelloCard(mail));
+            LOGGER.info("Email has been Sent");
+        }catch (MailException e) {
+            LOGGER.error("Process failed: ", e.getMessage(), e);
+        }
+    }
+
+    public void sendSchedulerInfoMail(Mail mail) {
+
+        LOGGER.info("Starting email preparation...");
+        try {
+            javaMailSender.send(createSchedulerInfoMail(mail));
             LOGGER.info("Email has been Sent");
         }catch (MailException e) {
             LOGGER.error("Process failed: ", e.getMessage(), e);

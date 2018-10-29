@@ -12,8 +12,5 @@ public class Mail {
     private final String mailToCC;
     private final String subject;
     private final String message;
-    private boolean isScheduler;
-
-
 
 }

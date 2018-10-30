@@ -31,7 +31,7 @@ public class MailCreatorService {
 
         List<String> functionality = new ArrayList<>();
         functionality.add("You can menage your tasks");
-        functionality. add("Provides connection with Trello Account");
+        functionality.add("Provides connection with Trello Account");
         functionality.add("Application allows sending tasks to Trello");
 
         Context context = new Context();

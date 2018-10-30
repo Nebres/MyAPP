@@ -7,7 +7,6 @@ import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -70,7 +69,7 @@ public class TaskControllerTestSuite {
         when(dbService.getAllTasks()).thenReturn(tasks);
         when(taskMapper.mapToTaskDtoList(tasks)).thenReturn(tasksDto);
         //When & Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -90,7 +89,7 @@ public class TaskControllerTestSuite {
         when(dbService.getTask(1L)).thenReturn(tasks.get(0));
         when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
         //When & Then
-        mockMvc.perform(get("/v1/task/getTask?taskId=1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/1/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("test1")))
@@ -106,7 +105,7 @@ public class TaskControllerTestSuite {
         when(dbService.getTask(3L)).thenReturn(tasks.get(2));
         when(taskMapper.mapToTaskDto(tasks.get(2))).thenReturn(new TaskDto());
         //When & Then
-        mockMvc.perform(get("/v1/task/getTask?taskId=3").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/3/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", isEmptyOrNullString()))
                 .andExpect(jsonPath("$.title", isEmptyOrNullString()))
@@ -120,7 +119,7 @@ public class TaskControllerTestSuite {
         List<Task> tasks = initTasksList();
         doNothing().when(dbService).deleteTask(anyLong());
         //When & Then
-        mockMvc.perform(delete("/v1/task/deleteTask?taskId=1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/v1/tasks/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(true)));
     }
@@ -135,7 +134,7 @@ public class TaskControllerTestSuite {
         when(taskMapper.mapToTaskDto(createdTask)).thenReturn(createdTaskDto);
         String jSonContent = gSon.toJson(createdTask);
         //When & Then
-        mockMvc.perform(post("/v1/task/createTask")
+        mockMvc.perform(post("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jSonContent))
@@ -153,7 +152,7 @@ public class TaskControllerTestSuite {
         when(taskMapper.mapToTaskDto(updatedTask)).thenReturn(updatedTaskDto);
         String jSonContent = gSon.toJson(updatedTask);
         //When & Then
-        mockMvc.perform(put("/v1/task/updateTask")
+        mockMvc.perform(put("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jSonContent))
@@ -169,7 +168,7 @@ public class TaskControllerTestSuite {
         when(dbService.getAllTasks()).thenReturn(tasks);
         when(taskMapper.mapToTaskDtoList(tasks)).thenReturn(tasksDto);
         //When & Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(Collections.EMPTY_LIST)));
     }

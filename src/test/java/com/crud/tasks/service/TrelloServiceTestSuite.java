@@ -28,7 +28,7 @@ public class TrelloServiceTestSuite {
     private TrelloClient trelloClient;
 
     @Mock
-    private SimpleEmailService emailService;
+    private EmailService emailService;
 
     @Mock
     private CompanyConfig companyConfig;
@@ -78,7 +78,7 @@ public class TrelloServiceTestSuite {
                 ("1", "test", "test.com");
         when(trelloClient.createNewCard(trelloCardDto)).thenReturn(newCard);
         when(companyConfig.getAdminMail()).thenReturn("test@test.com");
-        doNothing().when(emailService).send(any());
+        doNothing().when(emailService).sendMessageForNewTrelloCard(any());
         //When
         CreatedTrelloCardDto actual = trelloService.createTrelloCard(trelloCardDto);
         CreatedTrelloCardDto expected = newCard;
@@ -93,7 +93,7 @@ public class TrelloServiceTestSuite {
         TrelloCardDto trelloCardDto = null;
         when(trelloClient.createNewCard(trelloCardDto)).thenReturn(null);
         when(companyConfig.getAdminMail()).thenReturn("test@test.com");
-        doNothing().when(emailService).send(any());
+        doNothing().when(emailService).sendMessageForNewTrelloCard(any());
         //When
         CreatedTrelloCardDto actual = trelloService.createTrelloCard(trelloCardDto);
         //Then

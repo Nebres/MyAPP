@@ -24,7 +24,7 @@ public class TrelloService {
     TrelloClient trelloClient;
 
     @Autowired
-    SimpleEmailService emailService;
+    EmailService emailService;
 
     @Autowired
     CompanyConfig companyConfig;

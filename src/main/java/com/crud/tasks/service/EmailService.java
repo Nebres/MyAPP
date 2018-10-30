@@ -12,7 +12,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SimpleEmailService {
+public class EmailService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
 
@@ -21,7 +21,6 @@ public class SimpleEmailService {
 
     @Autowired
     JavaMailSender javaMailSender;
-
 
     private MimeMessagePreparator createMimeMessageForNewTrelloCard(final Mail mail) {
         return mimeMessage -> {
@@ -34,24 +33,13 @@ public class SimpleEmailService {
     }
 
     private MimeMessagePreparator createSchedulerInfoMail(final Mail mail) {
-        return mimeMessage -> {
+       return mimeMessage  -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setCc(mail.getMailToCC());
             messageHelper.setSubject(mail.getSubject());
             messageHelper.setText(mailCreatorService.buildSchedulerInfoEMail(mail.getMessage()), true);
-        };
-    }
-
-    public void sendMessageForNewTrelloCard(Mail mail) {
-
-        LOGGER.info("Starting email preparation...");
-        try {
-            javaMailSender.send(createMimeMessageForNewTrelloCard(mail));
-            LOGGER.info("Email has been Sent");
-        }catch (MailException e) {
-            LOGGER.error("Process failed: ", e.getMessage(), e);
-        }
+       };
     }
 
     public void sendSchedulerInfoMail(Mail mail) {
@@ -59,6 +47,17 @@ public class SimpleEmailService {
         LOGGER.info("Starting email preparation...");
         try {
             javaMailSender.send(createSchedulerInfoMail(mail));
+            LOGGER.info("Email has been Sent");
+        }catch (MailException e) {
+            LOGGER.error("Process failed: ", e.getMessage(), e);
+        }
+    }
+
+    public void sendMessageForNewTrelloCard(Mail mail) {
+
+        LOGGER.info("Starting email preparation...");
+        try {
+            javaMailSender.send(createMimeMessageForNewTrelloCard(mail));
             LOGGER.info("Email has been Sent");
         }catch (MailException e) {
             LOGGER.error("Process failed: ", e.getMessage(), e);

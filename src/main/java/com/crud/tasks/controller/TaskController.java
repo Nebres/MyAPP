@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/task")
+@RequestMapping("/v1/")
 public class TaskController {
 
     @Autowired
@@ -21,18 +21,18 @@ public class TaskController {
     @Autowired
     private TaskMapper taskMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks")
     List<TaskDto> getTasks() {
         return Optional.ofNullable(taskMapper.mapToTaskDtoList(dbService.getAllTasks())).orElse(Collections.emptyList());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTask")
-    public TaskDto getTask(@RequestParam Long taskId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks/{taskId}")
+    public TaskDto getTask(@PathVariable Long taskId) {
         return Optional.ofNullable(taskMapper.mapToTaskDto(dbService.getTask(taskId))).orElse(new TaskDto());
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public boolean deleteTask(@RequestParam Long taskId) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{taskId}")
+    public boolean deleteTask(@PathVariable Long taskId) {
         try {
             dbService.deleteTask(taskId);
             return true;
@@ -42,7 +42,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
+    @RequestMapping(method = RequestMethod.PUT, value = "/tasks")
     public boolean updateTask(@RequestBody TaskDto taskDto) {
         try {
             Optional.ofNullable(getTask(taskDto.getId()))
@@ -56,7 +56,7 @@ public class TaskController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTask")
+    @RequestMapping(method = RequestMethod.POST, value = "/tasks")
     public boolean createTask(@RequestBody TaskDto taskDto) {
         try {
             dbService.saveTask(taskMapper.mapToTask(taskDto));
